@@ -120,7 +120,7 @@
           </div>
         </div>
         <div class="col-lg-6">
-          <div class="hero__pic set-bg" id="hero-image" data-setbg="img/hero/hero-video.png">
+          <div class="hero__pic set-bg" id="hero-video-preview" data-setbg="img/hero/hero-video.png">
             <a class="play-btn video-popup" id="hero-play-btn" href="https://www.youtube.com/watch?v=dQw4w9WgXcQ">
               <img src="img/hero/play-btn.png" alt="Play Button" />
             </a>
@@ -392,7 +392,9 @@
         // Update hero section UI
         heroDate.textContent = formattedDate;
         heroTitle.textContent = featuredTitle;
+        if (!heroImage.style.backgroundImage || heroImage.style.backgroundImage === "none") {
         heroImage.style.backgroundImage = `url('${featuredImage}')`;
+        }
         heroPlayBtn.href = featuredAudioUrl || featuredLink || "#";
         heroItunes.href = channelLink || "#";
         heroRSS.href = RSS_URL;
@@ -567,7 +569,15 @@
       try {
         const res = await fetch(apiUrl);
         const data = await res.json();
+        if (!data.items || data.items.length === 0) {
+          console.warn("No videos found for this channel.");
+          return;
+        }
         const video = data.items.find(item => item.id.kind === "youtube#video");
+        if (!video) {
+          console.warn("No valid YouTube video found.");
+          return;
+        }
         const videoId = video.id.videoId;
         const videoUrl = `https://www.youtube.com/watch?v=${videoId}`;
   
@@ -577,7 +587,7 @@
   
         // Change hero background image to video thumbnail
         const thumbnail = video.snippet.thumbnails.high.url;
-        document.getElementById("hero-image").style.backgroundImage = `url('${thumbnail}')`;
+        document.getElementById("hero-video-preview").style.backgroundImage = `url('${thumbnail}')`;
       } catch (error) {
         console.error("YouTube video fetch failed:", error);
       }
@@ -592,9 +602,6 @@
       });
     });
   </script>
-
-  <link rel="stylesheet" href="css/magnific-popup.css" />
-  <script src="js/jquery.magnific-popup.min.js"></script>
   
 </body>
 </html>
