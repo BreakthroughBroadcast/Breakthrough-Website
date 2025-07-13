@@ -1,822 +1,561 @@
 <!DOCTYPE html>
 <html lang="zxx">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="description" content="Megapod Template" />
-    <meta name="keywords" content="Megapod, unica, creative, html" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Megapod | Template</title>
+<head>
+  <meta charset="UTF-8" /> <!-- Character encoding -->
+  <meta name="description" content="Breakthrough Broadcast Podcast" /> <!-- SEO description -->
+  <meta name="keywords" content="podcast, breakthrough, broadcast, STEM" /> <!-- SEO keywords -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" /> <!-- Responsive scaling -->
+  <meta http-equiv="X-UA-Compatible" content="ie=edge" /> <!-- IE compatibility -->
+  <title>Breakthrough Broadcast | Podcast</title> <!-- Page title -->
 
-    <!-- Google Font -->
-    <link
-      href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap"
-      rel="stylesheet"
-    />
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@300;400;600;700;800;900&display=swap" rel="stylesheet" />
 
-    <!-- Css Styles -->
-    <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/elegant-icons.css" type="text/css" />
-    <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
-    <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-  </head>
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css" />
+  <link rel="stylesheet" href="css/font-awesome.min.css" type="text/css" />
+  <link rel="stylesheet" href="css/elegant-icons.css" type="text/css" />
+  <link rel="stylesheet" href="css/magnific-popup.css" type="text/css" />
+  <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css" />
+  <link rel="stylesheet" href="css/slicknav.min.css" type="text/css" />
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
 
-  <body>
-    <!-- Page Preloder -->
-    <div id="preloder">
-      <div class="loader"></div>
+  <style>
+    /* Hide duplicate 'Latest Episodes' heading at bottom (removed) */
+    /* We won't add that element in JS */
+  </style>
+</head>
+
+<body>
+  <!-- Page Preloader -->
+  <div id="preloder">
+    <div class="loader"></div>
+  </div>
+
+  <!-- Offcanvas Menu Begin -->
+  <div class="offcanvas-menu-overlay"></div>
+  <div class="offcanvas-menu-wrapper">
+    <div class="offcanvas__search">
+      <form action="#">
+        <input type="text" placeholder="Search and hit enter..." />
+        <button type="submit"><i class="fa fa-search"></i></button>
+      </form>
     </div>
-
-    <!-- Offcanvas Menu Begin -->
-    <div class="offcanvas-menu-overlay"></div>
-    <div class="offcanvas-menu-wrapper">
-      <div class="offcanvas__search">
-        <form action="#">
-          <input type="text" placeholder="Search and hit enter..." />
-          <button type="submit"><i class="fa fa-search"></i></button>
-        </form>
-      </div>
-      <div class="offcanvas__logo">
-        <a href="./index.html"><img src="img/logo.png" alt="" /></a> <!-- change to your own image -->
-      </div>
-      <div id="mobile-menu-wrap"></div>
-      <div class="offcanvas__social">
-        <a href="#"><i class="fa fa-facebook"></i></a>
-        <a href="#"><i class="fa fa-twitter"></i></a>
-        <a href="#"><i class="fa fa-pinterest"></i></a>
-        <a href="#"><i class="fa fa-instagram"></i></a>
-        <a href="#"><i class="fa fa-dribbble"></i></a>
-      </div>
+    <div class="offcanvas__logo">
+      <a href="./index.html"><img src="img/logo.png" alt="Breakthrough Broadcast Logo" /></a>
     </div>
-    <!-- Offcanvas Menu End -->
+    <div id="mobile-menu-wrap"></div>
+    <div class="offcanvas__social">
+      <a href="#"><i class="fa fa-facebook"></i></a>
+      <a href="#"><i class="fa fa-twitter"></i></a>
+      <a href="#"><i class="fa fa-pinterest"></i></a>
+      <a href="#"><i class="fa fa-instagram"></i></a>
+      <a href="#"><i class="fa fa-dribbble"></i></a>
+    </div>
+  </div>
+  <!-- Offcanvas Menu End -->
 
-    <!-- Header Section Begin -->
-    <header class="header">
-      <div class="container-fluid">
-        <div class="row">
-          <div class="col-lg-8">
-            <div class="header__logo">
-              <a href="./index.html"><img src="img/logo.png" alt="" /></a>
-            </div>
-            <nav class="header__menu mobile-menu">
-              <ul>
-                <li class="active"><a href="./index.html">Home</a></li>
-                <li><a href="./about.html">About</a></li>
-                <li><a href="./episodes.html">Episodes</a></li>
-                <li>
-                  <a href="#">Pages</a>
-                  <ul class="dropdown">
-                    <li><a href="./about.html">About</a></li>
-                    <li><a href="./episodes-details.html">Episodes</a></li>
-                  </ul>
-                </li>
-                <li><a href="./contact.html">Contact</a></li>
-              </ul>
-            </nav>
+  <!-- Header Section Begin -->
+  <header class="header">
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="header__logo">
+            <a href="./index.html"><img src="img/logo.png" alt="Breakthrough Broadcast Logo" /></a>
           </div>
-          <div class="col-lg-4">
-            <div class="header__right">
-              <div class="header__right__search">
-                <form action="#">
-                  <input type="text" placeholder="Search and hit enter..." />
-                  <button type="submit"><i class="fa fa-search"></i></button>
-                </form>
-              </div>
-              <div class="header__right__social">
-                <a href="#"><i class="fa fa-tiktok"></i></a>
-                <a href="#"><i class="fa fa-spotify"></i></a>
-                <a href="#"><i class="fa fa-instagram"></i></a>
-                <a href="#"><i class="fa fa-youtube"></i></a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="canvas__open"><i class="fa fa-bars"></i></div>
-      </div>
-    </header>
-    <!-- Header Section End -->
-
-    <!-- Hero Section Begin -->
-    <section class="hero spad set-bg" data-setbg="img/hero/hero-bg.jpg"> <!-- change to your image (Maybe take it yourself)?-->
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-6">
-            <div class="hero__text">
-              <h5><span class="icon_calendar"></span> 12 Jul 2025</h5>
-              <h2>Digitizing the Dead: The Science of Virtual Cadavers</h2>
-              <a href="#" class="primary-btn">Subscribe with iTunes</a>
-              <a href="#" class="primary-btn white-btn">Subscribe with RSS</a>
-            </div>
-          </div>
-          <div class="col-lg-6"> <!-- this is all weird (and down) -->
-            <div class="hero__pic set-bg" data-setbg="img/hero/hero-video.png"> <!-- this is all weird -->
-              <a
-                href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/249690664&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                class="play-btn video-popup"
-                ><img src="img/hero/play-btn.png" alt=""
-              /></a> <!-- this is all weird (and up) -->
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="single__track">
-        <div class="container">
-          <div class="row">
-            <div class="col-lg-4">
-              <div class="single__track__item">
-                <div class="single__track__item__pic">
-                  <img src="img/hero/hero-track.jpg" alt="" />
-                </div>
-                <div class="single__track__item__text">
-                  <h5>Digitizing the Dead: The Science of Virtual Cadavers</h5>
-                  <span>Nathan Loeke</span>
-                </div>
-              </div>
-            </div>
-            <div class="col-lg-8">
-              <div class="single__track__option">
-                <div
-                  class="jp-jplayer jplayer"
-                  data-ancestor=".jp_container"
-                  data-url="music-files/2.mp3"
-                ></div> <!-- change audio file (maybe have to use a different language or something, check ChatGPT) -->
-                <div
-                  class="jp-audio jp_container"
-                  role="application"
-                  aria-label="media player"
-                >
-                  <div class="jp-gui jp-interface">
-                    <!-- Player Controls -->
-                    <div class="player_controls_box">
-                      <button
-                        class="jp-play player_button"
-                        tabindex="0"
-                      ></button>
-                    </div>
-                    <!-- Progress Bar -->
-                    <div class="player_bars">
-                      <div class="jp-progress">
-                        <div class="jp-seek-bar">
-                          <div>
-                            <div class="jp-play-bar">
-                              <div
-                                class="jp-current-time"
-                                role="timer"
-                                aria-label="time"
-                              >
-                                0:00
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-                      <div
-                        class="jp-duration ml-auto"
-                        role="timer"
-                        aria-label="duration"
-                      >
-                        00:00
-                      </div>
-                    </div>
-                    <!-- Volume Controls -->
-                    <div class="jp-volume-controls">
-                      <button class="jp-mute" tabindex="0">
-                        <span class="icon_volume-high"></span>
-                      </button>
-                      <div class="jp-volume-bar">
-                        <div
-                          class="jp-volume-bar-value"
-                          style="width: 0%"
-                        ></div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="jp-btns">
-                    <a href="#"><i class="social_share"></i> Share</a>
-                    <a href="#"><i class="fa fa-download"></i> Download</a>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Hero Section End -->
-
-    <!-- Podcast Section Begin -->
-    <section class="podcast spad">
-      <div class="container">
-        <div class="podcast__top">
-          <div class="row">
-            <div class="col-lg-5 col-md-5">
-              <h2>Live & Upcoming</h2>
-            </div>
-            <div class="col-lg-7 col-md-7">
-              <ul class="filter__controls">
-                <li class="active" data-filter="*">All</li>
-                <li data-filter=".entrepreneurship">Entrepreneurship</li>
-                <li data-filter=".media">Media</li>
-                <li data-filter=".tech">Tech</li>
-                <li data-filter=".tutorials">Tutorials</li>
-              </ul>
-            </div>
-          </div>
-        </div>
-        <div class="row podcast-filter">
-          <div class="col-lg-12 mix entrepreneurship">
-            <div class="podcast__item">
-              <div class="podcast__item__pic">
-                <img src="img/podcast/podcast-1.jpg" alt="" />
-              </div>
-              <div class="podcast__item__text">
-                <a href="#" class="heart-icon"><i class="fa fa-heart"></i></a>
-                <ul>
-                  <li><span class="icon_calendar"></span> 7 Jun 2019</li>
-                  <li><span class="icon_profile"></span> by John Smith</li>
-                  <li>
-                    <span class="icon_tags_alt"></span> Radio, Musican, Camp
-                  </li>
+          <nav class="header__menu mobile-menu">
+            <ul>
+              <li class="active"><a href="./index.html">Home</a></li>
+              <li><a href="./about.html">About</a></li>
+              <li><a href="./episodes.html">Episodes</a></li>
+              <li>
+                <a href="#">Pages</a>
+                <ul class="dropdown">
+                  <li><a href="./about.html">About</a></li>
+                  <li><a href="./episodes-details.html">Episodes</a></li>
+                  <li><a href="./blog.html">Blog</a></li>
+                  <li><a href="./blog-details.html">Blog Details</a></li>
                 </ul>
-                <h4>
-                  Episode 01: 6 Powerful Tips To Creating Testimonials That Sell
-                  Your
-                </h4>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
-                  maecenas accumsan lacus vel facilisis.
-                </p>
-                <div class="track__option">
-                  <div
-                    class="jp-jplayer jplayer"
-                    data-ancestor=".jp_container-1"
-                    data-url="music-files/3.mp3"
-                  ></div>
-                  <div
-                    class="jp-audio jp_container-1"
-                    role="application"
-                    aria-label="media player"
-                  >
-                    <div class="jp-gui jp-interface">
-                      <!-- Player Controls -->
-                      <div class="player_controls_box">
-                        <button
-                          class="jp-play player_button"
-                          tabindex="0"
-                        ></button>
-                      </div>
-                      <!-- Progress Bar -->
-                      <div class="player_bars">
-                        <div class="jp-progress">
-                          <div class="jp-seek-bar">
-                            <div>
-                              <div class="jp-play-bar">
-                                <div
-                                  class="jp-current-time"
-                                  role="timer"
-                                  aria-label="time"
-                                >
-                                  0:00
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="jp-duration ml-auto"
-                          role="timer"
-                          aria-label="duration"
-                        >
-                          00:00
-                        </div>
-                      </div>
-                      <!-- Volume Controls -->
-                      <div class="jp-volume-controls">
-                        <button class="jp-mute" tabindex="0">
-                          <span class="icon_volume-high"></span>
-                        </button>
-                        <div class="jp-volume-bar">
-                          <div
-                            class="jp-volume-bar-value"
-                            style="width: 0%"
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="jp-btns">
-                      <a href="#"><i class="social_share"></i> Share</a>
-                      <a href="#"><i class="fa fa-download"></i> Download</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-12 mix media">
-            <div class="podcast__item">
-              <div class="podcast__item__pic">
-                <img src="img/podcast/podcast-2.jpg" alt="" />
-              </div>
-              <div class="podcast__item__text">
-                <a href="#" class="heart-icon"><i class="fa fa-heart"></i></a>
-                <ul>
-                  <li><span class="icon_calendar"></span> 7 Jun 2019</li>
-                  <li><span class="icon_profile"></span> by John Smith</li>
-                  <li>
-                    <span class="icon_tags_alt"></span> Radio, Musican, Camp
-                  </li>
-                </ul>
-                <h4>
-                  Episode 01: 6 Powerful Tips To Creating Testimonials That Sell
-                  Your
-                </h4>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
-                  maecenas accumsan lacus vel facilisis.
-                </p>
-                <div class="track__option">
-                  <div
-                    class="jp-jplayer jplayer"
-                    data-ancestor=".jp_container-2"
-                    data-url="music-files/4.mp3"
-                  ></div>
-                  <div
-                    class="jp-audio jp_container-2"
-                    role="application"
-                    aria-label="media player"
-                  >
-                    <div class="jp-gui jp-interface">
-                      <!-- Player Controls -->
-                      <div class="player_controls_box">
-                        <button
-                          class="jp-play player_button"
-                          tabindex="0"
-                        ></button>
-                      </div>
-                      <!-- Progress Bar -->
-                      <div class="player_bars">
-                        <div class="jp-progress">
-                          <div class="jp-seek-bar">
-                            <div>
-                              <div class="jp-play-bar">
-                                <div
-                                  class="jp-current-time"
-                                  role="timer"
-                                  aria-label="time"
-                                >
-                                  0:00
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="jp-duration ml-auto"
-                          role="timer"
-                          aria-label="duration"
-                        >
-                          00:00
-                        </div>
-                      </div>
-                      <!-- Volume Controls -->
-                      <div class="jp-volume-controls">
-                        <button class="jp-mute" tabindex="0">
-                          <span class="icon_volume-high"></span>
-                        </button>
-                        <div class="jp-volume-bar">
-                          <div
-                            class="jp-volume-bar-value"
-                            style="width: 0%"
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="jp-btns">
-                      <a href="#"><i class="social_share"></i> Share</a>
-                      <a href="#"><i class="fa fa-download"></i> Download</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-12 mix tech">
-            <div class="podcast__item">
-              <div class="podcast__item__pic">
-                <img src="img/podcast/podcast-3.jpg" alt="" />
-              </div>
-              <div class="podcast__item__text">
-                <a href="#" class="heart-icon"><i class="fa fa-heart"></i></a>
-                <ul>
-                  <li><span class="icon_calendar"></span> 7 Jun 2019</li>
-                  <li><span class="icon_profile"></span> by John Smith</li>
-                  <li>
-                    <span class="icon_tags_alt"></span> Radio, Musican, Camp
-                  </li>
-                </ul>
-                <h4>
-                  Episode 01: 6 Powerful Tips To Creating Testimonials That Sell
-                  Your
-                </h4>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
-                  maecenas accumsan lacus vel facilisis.
-                </p>
-                <div class="track__option">
-                  <div
-                    class="jp-jplayer jplayer"
-                    data-ancestor=".jp_container-3"
-                    data-url="music-files/5.mp3"
-                  ></div>
-                  <div
-                    class="jp-audio jp_container-3"
-                    role="application"
-                    aria-label="media player"
-                  >
-                    <div class="jp-gui jp-interface">
-                      <!-- Player Controls -->
-                      <div class="player_controls_box">
-                        <button
-                          class="jp-play player_button"
-                          tabindex="0"
-                        ></button>
-                      </div>
-                      <!-- Progress Bar -->
-                      <div class="player_bars">
-                        <div class="jp-progress">
-                          <div class="jp-seek-bar">
-                            <div>
-                              <div class="jp-play-bar">
-                                <div
-                                  class="jp-current-time"
-                                  role="timer"
-                                  aria-label="time"
-                                >
-                                  0:00
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="jp-duration ml-auto"
-                          role="timer"
-                          aria-label="duration"
-                        >
-                          00:00
-                        </div>
-                      </div>
-                      <!-- Volume Controls -->
-                      <div class="jp-volume-controls">
-                        <button class="jp-mute" tabindex="0">
-                          <span class="icon_volume-high"></span>
-                        </button>
-                        <div class="jp-volume-bar">
-                          <div
-                            class="jp-volume-bar-value"
-                            style="width: 0%"
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="jp-btns">
-                      <a href="#"><i class="social_share"></i> Share</a>
-                      <a href="#"><i class="fa fa-download"></i> Download</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-12 mix tutorials">
-            <div class="podcast__item">
-              <div class="podcast__item__pic">
-                <img src="img/podcast/podcast-4.jpg" alt="" />
-              </div>
-              <div class="podcast__item__text">
-                <a href="#" class="heart-icon"><i class="fa fa-heart"></i></a>
-                <ul>
-                  <li><span class="icon_calendar"></span> 7 Jun 2019</li>
-                  <li><span class="icon_profile"></span> by John Smith</li>
-                  <li>
-                    <span class="icon_tags_alt"></span> Radio, Musican, Camp
-                  </li>
-                </ul>
-                <h4>
-                  Episode 01: 6 Powerful Tips To Creating Testimonials That Sell
-                  Your
-                </h4>
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  Quis ipsum suspendisse ultrices gravida. Risus commodo viverra
-                  maecenas accumsan lacus vel facilisis.
-                </p>
-                <div class="track__option">
-                  <div
-                    class="jp-jplayer jplayer"
-                    data-ancestor=".jp_container-4"
-                    data-url="music-files/6.mp3"
-                  ></div>
-                  <div
-                    class="jp-audio jp_container-4"
-                    role="application"
-                    aria-label="media player"
-                  >
-                    <div class="jp-gui jp-interface">
-                      <!-- Player Controls -->
-                      <div class="player_controls_box">
-                        <button
-                          class="jp-play player_button"
-                          tabindex="0"
-                        ></button>
-                      </div>
-                      <!-- Progress Bar -->
-                      <div class="player_bars">
-                        <div class="jp-progress">
-                          <div class="jp-seek-bar">
-                            <div>
-                              <div class="jp-play-bar">
-                                <div
-                                  class="jp-current-time"
-                                  role="timer"
-                                  aria-label="time"
-                                >
-                                  0:00
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div
-                          class="jp-duration ml-auto"
-                          role="timer"
-                          aria-label="duration"
-                        >
-                          00:00
-                        </div>
-                      </div>
-                      <!-- Volume Controls -->
-                      <div class="jp-volume-controls">
-                        <button class="jp-mute" tabindex="0">
-                          <span class="icon_volume-high"></span>
-                        </button>
-                        <div class="jp-volume-bar">
-                          <div
-                            class="jp-volume-bar-value"
-                            style="width: 0%"
-                          ></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="jp-btns">
-                      <a href="#"><i class="social_share"></i> Share</a>
-                      <a href="#"><i class="fa fa-download"></i> Download</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+              </li>
+              <li><a href="./contact.html">Contact</a></li>
+            </ul>
+          </nav>
         </div>
-      </div>
-    </section>
-    <!-- Podcast Section End -->
-
-    <!-- Call To Action Section Begin -->
-    <section class="callto spad set-bg" data-setbg="img/call-bg.jpg">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="callto__text">
-              <h2>Support The Show</h2>
-              <p>Enjoy listening to our podcast? Consider making a donation!</p>
-              <a href="#" class="primary-btn">Make a Donation</a>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Call To Action Section End -->
-
-    <!-- Episodes Section Begin -->
-    <section class="episodes spad">
-      <div class="container">
-        <div class="row">
-          <div class="col-lg-12">
-            <div class="section-title">
-              <h2>Latest Episodes</h2>
-            </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-4 col-md-6">
-            <div
-              class="episodes__item set-bg"
-              data-setbg="img/episodes/episodes-1.jpg"
-            >
-              <div class="tags">
-                <span class="icon_tags_alt"></span> Music, Radio
-              </div>
-              <div class="time">
-                <span class="icon_clock_alt"></span> 40 mins
-              </div>
-              <a
-                href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/249690664&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                class="play-btn video-popup"
-                ><img src="img/play.png" alt=""
-              /></a>
-              <div class="episodes__text">
-                <h4>Episode 02: Dealing With Technical Support 10</h4>
-                <p><span class="icon_calendar"></span> 16 Feb 2019</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div
-              class="episodes__item set-bg"
-              data-setbg="img/episodes/episodes-2.jpg"
-            >
-              <div class="tags">
-                <span class="icon_tags_alt"></span> Music, Radio
-              </div>
-              <div class="time">
-                <span class="icon_clock_alt"></span> 40 mins
-              </div>
-              <a
-                href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/249690664&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                class="play-btn video-popup"
-                ><img src="img/play.png" alt=""
-              /></a>
-              <div class="episodes__text">
-                <h4>Episode 03: Stu Unger Rise And Fall Of A Poker Genius</h4>
-                <p><span class="icon_calendar"></span> 16 Feb 2019</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div
-              class="episodes__item set-bg"
-              data-setbg="img/episodes/episodes-3.jpg"
-            >
-              <div class="tags">
-                <span class="icon_tags_alt"></span> Music, Radio
-              </div>
-              <div class="time">
-                <span class="icon_clock_alt"></span> 40 mins
-              </div>
-              <a
-                href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/249690664&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                class="play-btn video-popup"
-                ><img src="img/play.png" alt=""
-              /></a>
-              <div class="episodes__text">
-                <h4>Episode 04: Become A Travel Pro In One Easy</h4>
-                <p><span class="icon_calendar"></span> 16 Feb 2019</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div
-              class="episodes__item set-bg"
-              data-setbg="img/episodes/episodes-4.jpg"
-            >
-              <div class="tags">
-                <span class="icon_tags_alt"></span> Music, Radio
-              </div>
-              <div class="time">
-                <span class="icon_clock_alt"></span> 40 mins
-              </div>
-              <a
-                href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/249690664&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                class="play-btn video-popup"
-                ><img src="img/play.png" alt=""
-              /></a>
-              <div class="episodes__text">
-                <h4>Episode 05: There Is No Competition</h4>
-                <p><span class="icon_calendar"></span> 16 Feb 2019</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div
-              class="episodes__item set-bg"
-              data-setbg="img/episodes/episodes-5.jpg"
-            >
-              <div class="tags">
-                <span class="icon_tags_alt"></span> Music, Radio
-              </div>
-              <div class="time">
-                <span class="icon_clock_alt"></span> 40 mins
-              </div>
-              <a
-                href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/249690664&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                class="play-btn video-popup"
-                ><img src="img/play.png" alt=""
-              /></a>
-              <div class="episodes__text">
-                <h4>Episode 06: How To Put Movies On Iphone</h4>
-                <p><span class="icon_calendar"></span> 16 Feb 2019</p>
-              </div>
-            </div>
-          </div>
-          <div class="col-lg-4 col-md-6">
-            <div
-              class="episodes__item set-bg"
-              data-setbg="img/episodes/episodes-6.jpg"
-            >
-              <div class="tags">
-                <span class="icon_tags_alt"></span> Music, Radio
-              </div>
-              <div class="time">
-                <span class="icon_clock_alt"></span> 40 mins
-              </div>
-              <a
-                href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/249690664&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                class="play-btn video-popup"
-                ><img src="img/play.png" alt=""
-              /></a>
-              <div class="episodes__text">
-                <h4>Episode 02: Dealing With Technical Support 10</h4>
-                <p><span class="icon_calendar"></span> 16 Feb 2019</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-    <!-- Episodes Section End -->
-
-    <!-- Footer Section Begin -->
-    <footer class="footer set-bg" data-setbg="img/footer-bg.jpg">
-      <div class="container">
-        <div class="footer__subscriber">
-          <div class="row">
-            <div class="col-lg-5">
-              <div class="footer__subscriber__text">
-                <h3>Sign up for our newsletter!</h3>
-                <p>Subscribe to receive info on our latest news and episodes</p>
-              </div>
-            </div>
-            <div class="col-lg-5 offset-lg-2">
-              <form action="#" class="footer__subscriber__form">
-                <input type="text" placeholder="Your email address" />
-                <button type="submit" class="site-btn">Subscribe</button>
+        <div class="col-lg-4">
+          <div class="header__right">
+            <div class="header__right__search">
+              <form action="#">
+                <input type="text" placeholder="Search and hit enter..." />
+                <button type="submit"><i class="fa fa-search"></i></button>
               </form>
             </div>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-lg-9 col-md-9">
-            <div class="footer__widget">
-              <div class="footer__logo">
-                <a href="#"><img src="img/logo.png" alt="" /></a>
-              </div>
-              <p class="footer__copyright__text">
-                Copyright ©
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                All rights reserved | This template is made with
-                <i class="fa fa-heart-o" aria-hidden="true"></i> by
-                <a href="https://alitahir.netlify.app" target="_blank">theDevNinja</a>
-              </p>
-            </div>
-          </div>
-          <div class="col-lg-3 col-md-3">
-            <div class="footer__social">
+            <div class="header__right__social">
               <a href="#"><i class="fa fa-facebook"></i></a>
               <a href="#"><i class="fa fa-twitter"></i></a>
               <a href="#"><i class="fa fa-pinterest"></i></a>
               <a href="#"><i class="fa fa-instagram"></i></a>
-              <a href="#"><i class="fa fa-youtube-play"></i></a>
+              <a href="#"><i class="fa fa-dribbble"></i></a>
             </div>
           </div>
         </div>
       </div>
-    </footer>
-    <!-- Footer Section End -->
+      <div class="canvas__open"><i class="fa fa-bars"></i></div>
+    </div>
+  </header>
+  <!-- Header Section End -->
 
-    <!-- Js Plugins -->
-    <script src="js/jquery-3.3.1.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/jquery.magnific-popup.min.js"></script>
-    <script src="js/mixitup.min.js"></script>
-    <script src="js/jquery.slicknav.js"></script>
-    <script src="js/owl.carousel.min.js"></script>
-    <script src="js/main.js"></script>
+  <!-- Hero Section Begin -->
+  <section class="hero spad set-bg" id="hero-section" data-setbg="img/hero/hero-bg.jpg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-6">
+          <div class="hero__text">
+            <!-- Episode publish date -->
+            <h5><span class="icon_calendar"></span> <span id="hero-date">Loading...</span></h5>
+            <!-- Episode title -->
+            <h2 id="hero-title">Loading episode title...</h2>
+            <!-- Subscribe buttons (keep links or update as needed) -->
+            <a href="#" class="primary-btn" id="hero-itunes" target="_blank" rel="noopener noreferrer">Subscribe with iTunes</a>
+            <a href="#" class="primary-btn white-btn" id="hero-rss" target="_blank" rel="noopener noreferrer">Subscribe with RSS</a>
+          </div>
+        </div>
+        <div class="col-lg-6">
+          <div class="hero__pic set-bg" id="hero-image" data-setbg="img/hero/hero-video.png">
+            <!-- Link to SoundCloud or audio player popup -->
+            <a href="#" class="play-btn video-popup" id="hero-play-btn" target="_blank" rel="noopener noreferrer">
+              <img src="img/hero/play-btn.png" alt="Play Button" />
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <!-- Music Plugin -->
-    <script src="js/jquery.jplayer.min.js"></script>
-    <script src="js/jplayerInit.js"></script>
-  </body>
+    <!-- Bottom track player bar -->
+    <div class="single__track">
+      <div class="container">
+        <div class="row">
+          <div class="col-lg-4">
+            <div class="single__track__item">
+              <div class="single__track__item__pic" id="hero-track-pic">
+                <img src="img/hero/hero-track.jpg" alt="Episode Thumbnail" />
+              </div>
+              <div class="single__track__item__text">
+                <h5 id="hero-track-title">Loading...</h5>
+                <span id="hero-track-author">Loading...</span>
+              </div>
+            </div>
+          </div>
+          <div class="col-lg-8">
+            <div class="single__track__option">
+              <!-- jPlayer audio player -->
+              <div class="jp-jplayer jplayer" id="jp-jplayer-hero" data-ancestor=".jp_container-hero" data-url=""></div>
+              <div class="jp-audio jp_container-hero" role="application" aria-label="media player">
+                <div class="jp-gui jp-interface">
+                  <!-- Player Controls -->
+                  <div class="player_controls_box">
+                    <button class="jp-play player_button" tabindex="0"></button>
+                  </div>
+                  <!-- Progress Bar -->
+                  <div class="player_bars">
+                    <div class="jp-progress">
+                      <div class="jp-seek-bar">
+                        <div>
+                          <div class="jp-play-bar">
+                            <div class="jp-current-time" role="timer" aria-label="time">0:00</div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="jp-duration ml-auto" role="timer" aria-label="duration">00:00</div>
+                  </div>
+                  <!-- Volume Controls -->
+                  <div class="jp-volume-controls">
+                    <button class="jp-mute" tabindex="0"><span class="icon_volume-high"></span></button>
+                    <div class="jp-volume-bar">
+                      <div class="jp-volume-bar-value" style="width: 0%"></div>
+                    </div>
+                  </div>
+                </div>
+                <div class="jp-btns">
+                  <a href="#" id="hero-share" target="_blank" rel="noopener noreferrer"><i class="social_share"></i> Share</a>
+                  <a href="#" id="hero-download" download target="_blank" rel="noopener noreferrer"><i class="fa fa-download"></i> Download</a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Hero Section End -->
+
+  <!-- Podcast Section Begin -->
+  <section class="podcast spad">
+    <div class="container">
+      <div class="podcast__top">
+        <div class="row">
+          <div class="col-lg-5 col-md-5">
+            <!-- Section title -->
+            <h2>Episodes</h2>
+          </div>
+          <div class="col-lg-7 col-md-7">
+            <!-- Filter controls -->
+            <ul class="filter__controls">
+              <li class="active" data-filter="*">All</li>
+              <li data-filter=".interview">Interview</li>
+              <li data-filter=".non-interview">Non-Interview</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="row podcast-filter" id="podcast-list">
+        <!-- Podcast episode items inserted dynamically here -->
+      </div>
+    </div>
+  </section>
+  <!-- Podcast Section End -->
+
+  <!-- Call To Action Section Begin -->
+  <section class="callto spad set-bg" data-setbg="img/call-bg.jpg">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="callto__text">
+            <h2>Support The Show</h2>
+            <p>Enjoy listening to our podcast? Consider making a donation!</p>
+            <a href="#" class="primary-btn">Make a Donation</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <!-- Call To Action Section End -->
+
+  <!-- Footer Section Begin -->
+  <footer class="footer set-bg" data-setbg="img/footer-bg.jpg">
+    <div class="container">
+      <div class="footer__subscriber">
+        <div class="row">
+          <div class="col-lg-5">
+            <div class="footer__subscriber__text">
+              <h3>Sign up for our newsletter!</h3>
+              <p>Subscribe to receive info on our latest news and episodes</p>
+            </div>
+          </div>
+          <div class="col-lg-5 offset-lg-2">
+            <form action="#" class="footer__subscriber__form">
+              <input type="text" placeholder="Your email address" />
+              <button type="submit" class="site-btn">Subscribe</button>
+            </form>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-9 col-md-9">
+          <div class="footer__widget">
+            <div class="footer__logo">
+              <a href="#"><img src="img/logo.png" alt="Breakthrough Broadcast Logo" /></a>
+            </div>
+            <p class="footer__copyright__text">
+              Copyright ©
+              <script>document.write(new Date().getFullYear());</script>
+              All rights reserved | This template is made with
+              <i class="fa fa-heart-o" aria-hidden="true"></i> by
+              <a href="https://alitahir.netlify.app" target="_blank" rel="noopener noreferrer">Ali Tahir</a>
+            </p>
+          </div>
+        </div>
+        <div class="col-lg-3 col-md-3">
+          <div class="footer__social">
+            <a href="#"><i class="fa fa-facebook"></i></a>
+            <a href="#"><i class="fa fa-twitter"></i></a>
+            <a href="#"><i class="fa fa-pinterest"></i></a>
+            <a href="#"><i class="fa fa-instagram"></i></a>
+            <a href="#"><i class="fa fa-dribbble"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+  <!-- Footer Section End -->
+
+  <!-- JS Libraries -->
+  <script src="js/jquery-3.3.1.min.js"></script> <!-- jQuery dependency -->
+  <script src="js/bootstrap.min.js"></script> <!-- Bootstrap JS -->
+  <script src="js/jquery.magnific-popup.min.js"></script> <!-- Popup plugin -->
+  <script src="js/jquery.slicknav.js"></script> <!-- Mobile menu -->
+  <script src="js/owl.carousel.min.js"></script> <!-- Carousel plugin -->
+  <script src="js/main.js"></script> <!-- Main JS for template -->
+
+  <!-- jPlayer JS & CSS -->
+  <link href="css/jplayer.blue.monday.min.css" rel="stylesheet" />
+  <script src="js/jquery.jplayer.min.js"></script>
+
+  <script>
+    // Your RSS feed URL
+    const RSS_URL = "https://anchor.fm/s/105dc3c90/podcast/rss";
+
+    // Elements for hero section
+    const heroDate = document.getElementById("hero-date");
+    const heroTitle = document.getElementById("hero-title");
+    const heroImage = document.getElementById("hero-image");
+    const heroPlayBtn = document.getElementById("hero-play-btn");
+    const heroItunes = document.getElementById("hero-itunes");
+    const heroRSS = document.getElementById("hero-rss");
+
+    // Elements for bottom player bar
+    const heroTrackPic = document.getElementById("hero-track-pic").querySelector("img");
+    const heroTrackTitle = document.getElementById("hero-track-title");
+    const heroTrackAuthor = document.getElementById("hero-track-author");
+    const heroShare = document.getElementById("hero-share");
+    const heroDownload = document.getElementById("hero-download");
+
+    // jPlayer instance for hero section audio player
+    let player;
+
+    // Podcast list container
+    const podcastList = document.getElementById("podcast-list");
+
+    // Filter buttons container
+    const filterControls = document.querySelectorAll(".filter__controls li");
+
+    // Utility function to parse date strings to a nice format
+    function formatDate(dateString) {
+      const options = { year: "numeric", month: "long", day: "numeric" };
+      return new Date(dateString).toLocaleDateString(undefined, options);
+    }
+
+    // Escape HTML to prevent injection
+    function escapeHTML(str) {
+      return str.replace(/[&<>"']/g, function (match) {
+        return {
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;",
+        }[match];
+      });
+    }
+
+    // Load RSS feed, parse, and build UI
+    async function loadRSS() {
+      try {
+        const response = await fetch(RSS_URL);
+        if (!response.ok) throw new Error("Network response not OK");
+        const rssText = await response.text();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(rssText, "application/xml");
+
+        // Check for parsererror
+        if (xmlDoc.querySelector("parsererror")) {
+          throw new Error("Error parsing RSS XML");
+        }
+
+        // Extract channel info (for links)
+        const channel = xmlDoc.querySelector("channel");
+        const channelLink = channel.querySelector("link")?.textContent || "";
+
+        // Extract all <item> elements (episodes)
+        const items = Array.from(xmlDoc.querySelectorAll("item"));
+
+        // Sort items by pubDate descending (newest first)
+        items.sort((a, b) => {
+          const dateA = new Date(a.querySelector("pubDate")?.textContent);
+          const dateB = new Date(b.querySelector("pubDate")?.textContent);
+          return dateB - dateA;
+        });
+
+        // Most recent episode for hero
+        const featured = items[0];
+
+        // Parse info from featured
+        const featuredTitle = featured.querySelector("title")?.textContent || "No title";
+        const featuredDate = featured.querySelector("pubDate")?.textContent || "";
+        const formattedDate = formatDate(featuredDate);
+        const featuredDescription = featured.querySelector("description")?.textContent || "";
+        const featuredLink = featured.querySelector("link")?.textContent || "#";
+        const featuredEnclosure = featured.querySelector("enclosure");
+        const featuredAudioUrl = featuredEnclosure ? featuredEnclosure.getAttribute("url") : "";
+        // Get image: Try itunes:image or media:thumbnail or fallback
+        let featuredImage = "";
+        const itunesImage = featured.querySelector("itunes\\:image");
+        const mediaThumbnail = featured.querySelector("media\\:thumbnail");
+        if (itunesImage) {
+          featuredImage = itunesImage.getAttribute("href");
+        } else if (mediaThumbnail) {
+          featuredImage = mediaThumbnail.getAttribute("url");
+        } else {
+          // fallback to static image
+          featuredImage = "img/hero/hero-video.png";
+        }
+
+        // Update hero section UI
+        heroDate.textContent = formattedDate;
+        heroTitle.textContent = featuredTitle;
+        heroImage.style.backgroundImage = `url('${featuredImage}')`;
+        heroPlayBtn.href = featuredAudioUrl || featuredLink || "#";
+        heroItunes.href = channelLink || "#";
+        heroRSS.href = RSS_URL;
+
+        // Update bottom player bar
+        heroTrackPic.src = featuredImage;
+        heroTrackPic.alt = featuredTitle;
+        heroTrackTitle.textContent = featuredTitle;
+        heroTrackAuthor.textContent = "Drew Reck";
+
+        heroShare.href = featuredLink || "#";
+        heroDownload.href = featuredAudioUrl || "#";
+        heroDownload.setAttribute("download", "");
+
+        // Initialize jPlayer
+        if (player) {
+          player.jPlayer("destroy");
+        }
+        player = $("#jp-jplayer-hero").jPlayer({
+          ready: function () {
+            $(this).jPlayer("setMedia", {
+              mp3: featuredAudioUrl,
+            });
+          },
+          swfPath: "js",
+          supplied: "mp3",
+          wmode: "window",
+          useStateClassSkin: true,
+          autoBlur: false,
+          smoothPlayBar: true,
+          keyEnabled: true,
+          remainingDuration: true,
+          toggleDuration: true,
+        });
+
+        // Build podcast episode list with filter classes
+        podcastList.innerHTML = ""; // Clear existing content
+
+        for (const item of items) {
+          const title = item.querySelector("title")?.textContent || "No title";
+          const pubDate = item.querySelector("pubDate")?.textContent || "";
+          const dateFormatted = formatDate(pubDate);
+          const description = item.querySelector("description")?.textContent || "";
+          const link = item.querySelector("link")?.textContent || "#";
+          const enclosure = item.querySelector("enclosure");
+          const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
+          let imageUrl = "";
+
+          const itunesImg = item.querySelector("itunes\\:image");
+          const mediaThumb = item.querySelector("media\\:thumbnail");
+          if (itunesImg) {
+            imageUrl = itunesImg.getAttribute("href");
+          } else if (mediaThumb) {
+            imageUrl = mediaThumb.getAttribute("url");
+          } else {
+            imageUrl = "img/podcast/default.jpg";
+          }
+
+          // Determine interview or non-interview
+          const lowerTitle = title.toLowerCase();
+          const isInterview = lowerTitle.includes("featuring");
+
+          // Create the podcast card element
+          const colDiv = document.createElement("div");
+          colDiv.classList.add("col-lg-4", "col-md-6", "col-sm-6");
+          colDiv.classList.add(isInterview ? "interview" : "non-interview");
+
+          const cardDiv = document.createElement("div");
+          cardDiv.classList.add("podcast__item");
+
+          const picDiv = document.createElement("div");
+          picDiv.classList.add("podcast__item__pic");
+
+          const imgEl = document.createElement("img");
+          imgEl.src = imageUrl;
+          imgEl.alt = escapeHTML(title);
+          picDiv.appendChild(imgEl);
+
+          const textDiv = document.createElement("div");
+          textDiv.classList.add("podcast__item__text");
+
+          const ulMeta = document.createElement("ul");
+
+          const liDate = document.createElement("li");
+          liDate.innerHTML = `<span class="icon_calendar"></span> ${dateFormatted}`;
+          ulMeta.appendChild(liDate);
+
+          const liAuthor = document.createElement("li");
+          liAuthor.innerHTML = `<span class="icon_profile"></span> Drew Reck`;
+          ulMeta.appendChild(liAuthor);
+
+          textDiv.appendChild(ulMeta);
+
+          const h5Title = document.createElement("h5");
+          const aTitle = document.createElement("a");
+          aTitle.href = link;
+          aTitle.textContent = title;
+          h5Title.appendChild(aTitle);
+          textDiv.appendChild(h5Title);
+
+          const pDesc = document.createElement("p");
+          // Use a short truncated description (max 150 chars)
+          const shortDesc = description.length > 150 ? description.substring(0, 147) + "..." : description;
+          pDesc.textContent = shortDesc;
+          textDiv.appendChild(pDesc);
+
+          const listenBtn = document.createElement("a");
+          listenBtn.href = link;
+          listenBtn.classList.add("podcast__btn");
+          listenBtn.textContent = "Listen Now ";
+          const arrowSpan = document.createElement("span");
+          arrowSpan.classList.add("arrow_right");
+          listenBtn.appendChild(arrowSpan);
+          textDiv.appendChild(listenBtn);
+
+          cardDiv.appendChild(picDiv);
+          cardDiv.appendChild(textDiv);
+
+          colDiv.appendChild(cardDiv);
+
+          podcastList.appendChild(colDiv);
+        }
+
+        // Setup filter button click events
+        filterControls.forEach((btn) => {
+          btn.addEventListener("click", () => {
+            // Remove active class on all
+            filterControls.forEach((b) => b.classList.remove("active"));
+            btn.classList.add("active");
+
+            const filter = btn.getAttribute("data-filter");
+            const items = podcastList.children;
+
+            for (let i = 0; i < items.length; i++) {
+              const item = items[i];
+              if (filter === "*") {
+                item.style.display = "block";
+              } else {
+                // Filter by class
+                if (item.classList.contains(filter.substring(1))) {
+                  item.style.display = "block";
+                } else {
+                  item.style.display = "none";
+                }
+              }
+            }
+          });
+        });
+
+        // Hide preloader after loading
+        document.getElementById("preloder").style.display = "none";
+      } catch (err) {
+        console.error("Failed to load RSS feed:", err);
+        heroTitle.textContent = "Failed to load episodes.";
+        heroDate.textContent = "";
+      }
+    }
+
+    // Initialize on DOM ready
+    document.addEventListener("DOMContentLoaded", () => {
+      loadRSS();
+    });
+  </script>
+</body>
 </html>
