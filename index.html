@@ -103,48 +103,46 @@
     <!-- Header Section End -->
 
     <!-- Hero Section Begin -->
-    <section class="hero spad set-bg" data-setbg="img/hero/hero-bg.jpg">
+    <section class="hero spad set-bg" id="hero-section" data-setbg="img/hero/hero-bg.jpg">
       <div class="container">
         <div class="row">
           <div class="col-lg-6">
             <div class="hero__text">
-              <h5><span class="icon_calendar"></span> 10 Dec 2019</h5>
-              <h2>Ep 05: Astronomy Binoculars A Great</h2>
-              <a href="#" class="primary-btn">Subscribe with iTunes</a>
-              <a href="#" class="primary-btn white-btn">Subscribe with RSS</a>
+              <h5><span class="icon_calendar"></span> <span id="hero-episode-date">Loading...</span></h5>
+              <h2 id="hero-episode-title">Loading latest episode...</h2>
+              <a href="https://anchor.fm/s/105dc3c90/podcast/rss" target="_blank" class="primary-btn white-btn">Subscribe with RSS</a>
             </div>
           </div>
           <div class="col-lg-6">
             <div class="hero__pic set-bg" data-setbg="img/hero/hero-video.png">
-              <a
-                href="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/249690664&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true&visual=true"
-                class="play-btn video-popup"
-                ><img src="img/hero/play-btn.png" alt=""
-              /></a>
+              <a href="#" id="hero-play-btn" class="play-btn video-popup">
+                <img src="img/hero/play-btn.png" alt="Play Button" />
+              </a>
             </div>
           </div>
         </div>
       </div>
+    
       <div class="single__track">
         <div class="container">
           <div class="row">
             <div class="col-lg-4">
               <div class="single__track__item">
                 <div class="single__track__item__pic">
-                  <img src="img/hero/hero-track.jpg" alt="" />
+                  <img id="track-artwork" src="img/hero/hero-track.jpg" alt="Track Artwork" />
                 </div>
                 <div class="single__track__item__text">
-                  <h5>Understanding Operating</h5>
-                  <span>Kyle Hawkins</span>
+                  <h5 id="track-title">Loading...</h5>
+                  <span id="track-author">Loading...</span>
                 </div>
               </div>
             </div>
             <div class="col-lg-8">
               <div class="single__track__option">
                 <div
+                  id="jp-jplayer"
                   class="jp-jplayer jplayer"
                   data-ancestor=".jp_container"
-                  data-url="music-files/2.mp3"
                 ></div>
                 <div
                   class="jp-audio jp_container"
@@ -152,14 +150,9 @@
                   aria-label="media player"
                 >
                   <div class="jp-gui jp-interface">
-                    <!-- Player Controls -->
                     <div class="player_controls_box">
-                      <button
-                        class="jp-play player_button"
-                        tabindex="0"
-                      ></button>
+                      <button class="jp-play player_button" tabindex="0"></button>
                     </div>
-                    <!-- Progress Bar -->
                     <div class="player_bars">
                       <div class="jp-progress">
                         <div class="jp-seek-bar">
@@ -184,22 +177,17 @@
                         00:00
                       </div>
                     </div>
-                    <!-- Volume Controls -->
                     <div class="jp-volume-controls">
                       <button class="jp-mute" tabindex="0">
                         <span class="icon_volume-high"></span>
                       </button>
                       <div class="jp-volume-bar">
-                        <div
-                          class="jp-volume-bar-value"
-                          style="width: 0%"
-                        ></div>
+                        <div class="jp-volume-bar-value" style="width: 0%"></div>
                       </div>
                     </div>
                   </div>
                   <div class="jp-btns">
-                    <a href="#"><i class="social_share"></i> Share</a>
-                    <a href="#"><i class="fa fa-download"></i> Download</a>
+                    <a href="#" id="download-link" download><i class="fa fa-download"></i> Download</a>
                   </div>
                 </div>
               </div>
@@ -208,6 +196,7 @@
         </div>
       </div>
     </section>
+
     <!-- Hero Section End -->
 
     <!-- Podcast Section Begin -->
@@ -821,5 +810,80 @@
     <!-- Music Plugin -->
     <script src="js/jquery.jplayer.min.js"></script>
     <script src="js/jplayerInit.js"></script>
+    
+    <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const rssFeedUrl = "https://anchor.fm/s/105dc3c90/podcast/rss";
+      const corsProxy = "https://api.allorigins.win/get?url=";
+    
+      fetch(corsProxy + encodeURIComponent(rssFeedUrl))
+        .then((response) => response.json())
+        .then((data) => {
+          const parser = new DOMParser();
+          const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+    
+          const item = xmlDoc.querySelector("item");
+          if (!item) throw new Error("No episode found");
+    
+          // Episode details
+          const title = item.querySelector("title")?.textContent || "Untitled Episode";
+          const pubDateRaw = item.querySelector("pubDate")?.textContent;
+          const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
+          const formattedDate = pubDate.toLocaleDateString(undefined, {
+            year: "numeric",
+            month: "short",
+            day: "numeric",
+          });
+          const enclosure = item.querySelector("enclosure");
+          const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
+          const author = xmlDoc.querySelector("itunes\\:author")?.textContent || "Anchor Podcast";
+          const imageTag = item.querySelector("itunes\\:image");
+          const imageUrl = imageTag ? imageTag.getAttribute("href") : "img/hero/hero-track.jpg";
+    
+          // Update text content
+          document.getElementById("hero-episode-title").textContent = title;
+          document.getElementById("hero-episode-date").textContent = formattedDate;
+          document.getElementById("track-title").textContent = title;
+          document.getElementById("track-author").textContent = author;
+    
+          // Update artwork if available
+          if (imageUrl) {
+            document.getElementById("track-artwork").src = imageUrl;
+          }
+    
+          // Update hero play button link (optional, for any popup)
+          const playBtn = document.getElementById("hero-play-btn");
+          playBtn.href = audioUrl;
+    
+          // Update download link
+          const downloadLink = document.getElementById("download-link");
+          downloadLink.href = audioUrl;
+          downloadLink.setAttribute("download", "");
+    
+          // Initialize jPlayer with MP3 audio URL
+          const jpPlayer = $("#jp-jplayer");
+          jpPlayer.jPlayer("destroy"); // reset player before new setup
+    
+          jpPlayer.jPlayer({
+            ready: function () {
+              $(this).jPlayer("setMedia", {
+                mp3: audioUrl,
+              });
+            },
+            swfPath: "js",
+            supplied: "mp3",
+            cssSelectorAncestor: ".jp_container",
+            useStateClassSkin: true,
+            autoBlur: false,
+            smoothPlayBar: true,
+            keyEnabled: true,
+          });
+        })
+        .catch((err) => {
+          console.error("Failed to load or parse RSS feed:", err);
+        });
+    });
+    </script>
+
   </body>
 </html>
