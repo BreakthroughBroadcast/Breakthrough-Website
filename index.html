@@ -819,13 +819,20 @@
       fetch(corsProxy + encodeURIComponent(rssFeedUrl))
         .then((response) => response.json())
         .then((data) => {
+          // Extract base64 part from data URI
+          const base64String = data.contents.split(",")[1];
+    
+          // Decode base64 to get XML string
+          const xmlString = atob(base64String);
+    
+          // Parse XML string
           const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(data.contents, "text/xml");
+          const xmlDoc = parser.parseFromString(xmlString, "text/xml");
     
           const item = xmlDoc.querySelector("item");
           if (!item) throw new Error("No episode found");
     
-          // Episode details
+          // Extract episode info
           const title = item.querySelector("title")?.textContent || "Untitled Episode";
           const pubDateRaw = item.querySelector("pubDate")?.textContent;
           const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
@@ -834,24 +841,25 @@
             month: "short",
             day: "numeric",
           });
+    
           const enclosure = item.querySelector("enclosure");
           const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
+    
           const author = xmlDoc.querySelector("itunes\\:author")?.textContent || "Anchor Podcast";
           const imageTag = item.querySelector("itunes\\:image");
           const imageUrl = imageTag ? imageTag.getAttribute("href") : "img/hero/hero-track.jpg";
     
-          // Update text content
+          // Update DOM elements with episode info
           document.getElementById("hero-episode-title").textContent = title;
           document.getElementById("hero-episode-date").textContent = formattedDate;
           document.getElementById("track-title").textContent = title;
           document.getElementById("track-author").textContent = author;
     
-          // Update artwork if available
           if (imageUrl) {
             document.getElementById("track-artwork").src = imageUrl;
           }
     
-          // Update hero play button link (optional, for any popup)
+          // Update play button link if needed
           const playBtn = document.getElementById("hero-play-btn");
           playBtn.href = audioUrl;
     
@@ -860,9 +868,9 @@
           downloadLink.href = audioUrl;
           downloadLink.setAttribute("download", "");
     
-          // Initialize jPlayer with MP3 audio URL
+          // Initialize jPlayer
           const jpPlayer = $("#jp-jplayer");
-          jpPlayer.jPlayer("destroy"); // reset player before new setup
+          jpPlayer.jPlayer("destroy");
     
           jpPlayer.jPlayer({
             ready: function () {
@@ -881,6 +889,11 @@
         })
         .catch((err) => {
           console.error("Failed to load or parse RSS feed:", err);
+          // Optionally update UI to show error or fallback content
+          document.getElementById("hero-episode-title").textContent = "Failed to load episode";
+          document.getElementById("hero-episode-date").textContent = "";
+          document.getElementById("track-title").textContent = "";
+          document.getElementById("track-author").textContent = "";
         });
     });
     </script>
