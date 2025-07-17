@@ -390,9 +390,9 @@
         
           // Enhanced image detection logic
           let imageUrl = item.querySelector("itunes\\:image")?.getAttribute("href") ||
-                         item.querySelector("media\\:thumbnail")?.getAttribute("url") ||
-                         item.querySelector("media\\:content")?.getAttribute("url") ||
-                         globalImageUrl;
+               item.querySelector("media\\:thumbnail")?.getAttribute("url") ||
+               item.querySelector("media\\:content")?.getAttribute("url") ||
+               "img/episodes/default.jpg";
         
           const episodeHTML = `
             <div class="col-lg-4 col-md-6 ${categoryClass}">
