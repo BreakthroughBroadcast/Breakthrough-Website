@@ -291,167 +291,139 @@
       const rssFeedUrl = "https://anchor.fm/s/105dc3c90/podcast/rss";
       const corsProxy = "https://api.allorigins.win/get?url=";
     
-      fetch(corsProxy + encodeURIComponent(rssFeedUrl))
-        .then((response) => response.json())
-        .then((data) => {
-          // Extract base64 part from data URI
+      // Helper: parse and decode RSS feed XML from CORS proxy response
+      function parseFeedData(data) {
+        let rssText;
+        if (data.contents.startsWith("data:")) {
           const base64String = data.contents.split(",")[1];
+          rssText = atob(base64String);
+        } else {
+          rssText = data.contents;
+        }
+        return new DOMParser().parseFromString(rssText, "text/xml");
+      }
     
-          // Decode base64 to get XML string
-          const xmlString = atob(base64String);
+      // Load and show latest episode in hero/player
+      function loadLatestEpisode(xmlDoc) {
+        const item = xmlDoc.querySelector("item");
+        if (!item) throw new Error("No episode found");
     
-          // Parse XML string
-          const parser = new DOMParser();
-          const xmlDoc = parser.parseFromString(xmlString, "text/xml");
+        const title = item.querySelector("title")?.textContent || "Untitled Episode";
+        const pubDateRaw = item.querySelector("pubDate")?.textContent;
+        const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
+        const formattedDate = pubDate.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+        const enclosure = item.querySelector("enclosure");
+        const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
+        const author = xmlDoc.querySelector("itunes\\:author")?.textContent || "Anchor Podcast";
+        const imageTag = item.querySelector("itunes\\:image");
+        const imageUrl = imageTag ? imageTag.getAttribute("href") : "img/hero/hero-track.jpg";
     
-          const item = xmlDoc.querySelector("item");
-          if (!item) throw new Error("No episode found");
+        // Update hero section
+        document.getElementById("hero-episode-title").textContent = title;
+        document.getElementById("hero-episode-date").textContent = formattedDate;
+        document.getElementById("track-title").textContent = title;
+        document.getElementById("track-author").textContent = author;
     
-          // Extract episode info
+        if (imageUrl) {
+          document.getElementById("track-artwork").src = imageUrl;
+        }
+    
+        const playBtn = document.getElementById("hero-play-btn");
+        playBtn.href = audioUrl;
+    
+        const downloadLink = document.getElementById("download-link");
+        downloadLink.href = audioUrl;
+        downloadLink.setAttribute("download", "");
+    
+        // Initialize jPlayer
+        const jpPlayer = $("#jp-jplayer");
+        jpPlayer.jPlayer("destroy");
+        jpPlayer.jPlayer({
+          ready: function () {
+            $(this).jPlayer("setMedia", { mp3: audioUrl });
+          },
+          swfPath: "js",
+          supplied: "mp3",
+          cssSelectorAncestor: ".jp_container",
+          useStateClassSkin: true,
+          autoBlur: false,
+          smoothPlayBar: true,
+          keyEnabled: true,
+        });
+      }
+    
+      // Load and render all episodes in the container with filtering classes
+      function loadAllEpisodes(xmlDoc) {
+        const container = document.getElementById("episodes-container");
+        const items = xmlDoc.querySelectorAll("item");
+        if (!items.length) {
+          container.innerHTML = "<p>No episodes found.</p>";
+          return;
+        }
+        container.innerHTML = "";
+    
+        items.forEach(item => {
+          const descriptionRaw = item.querySelector("description")?.textContent || "";
+          const descriptionText = descriptionRaw.replace(/<\/?[^>]+(>|$)/g, "");
+          const shortDesc = descriptionText.length > 100 ? descriptionText.substring(0, 100) + "..." : descriptionText;
+    
           const title = item.querySelector("title")?.textContent || "Untitled Episode";
+          const hasFeaturing = /featuring/i.test(title);
+          const categoryClass = hasFeaturing ? "interview" : "non-interview";
+    
           const pubDateRaw = item.querySelector("pubDate")?.textContent;
           const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
           const formattedDate = pubDate.toLocaleDateString(undefined, {
             year: "numeric",
             month: "short",
-            day: "numeric",
+            day: "numeric"
           });
     
           const enclosure = item.querySelector("enclosure");
-          const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
+          const audioUrl = enclosure ? enclosure.getAttribute("url") : "#";
     
-          const author = xmlDoc.querySelector("itunes\\:author")?.textContent || "Anchor Podcast";
           const imageTag = item.querySelector("itunes\\:image");
-          const imageUrl = imageTag ? imageTag.getAttribute("href") : "img/hero/hero-track.jpg";
+          const imageUrl = imageTag ? imageTag.getAttribute("href") : "img/episodes/default.jpg";
     
-          // Update DOM elements with episode info
-          document.getElementById("hero-episode-title").textContent = title;
-          document.getElementById("hero-episode-date").textContent = formattedDate;
-          document.getElementById("track-title").textContent = title;
-          document.getElementById("track-author").textContent = author;
+          const episodeHTML = `
+            <div class="col-lg-4 col-md-6 ${categoryClass}">
+              <div class="episodes__item" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center; min-height: 250px; position: relative; color: white;">
+                <a href="${audioUrl}" target="_blank" class="play-btn" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
+                  <img src="img/play.png" alt="Play Button" style="width: 40px; height: 40px;" />
+                </a>
+                <div style="position: absolute; bottom: 0; background: rgba(0,0,0,0.6); width: 100%; padding: 15px;">
+                  <h4 style="margin: 0;">${title}</h4>
+                  <p style="margin: 5px 0 0;">${formattedDate}</p>
+                  <p style="margin: 5px 0 0;">${shortDesc}</p>
+                </div>
+              </div>
+            </div>`;
     
-          if (imageUrl) {
-            document.getElementById("track-artwork").src = imageUrl;
-          }
+          container.insertAdjacentHTML("beforeend", episodeHTML);
+        });
+      }
     
-          // Update play button link if needed
-          const playBtn = document.getElementById("hero-play-btn");
-          playBtn.href = audioUrl;
-    
-          // Update download link
-          const downloadLink = document.getElementById("download-link");
-          downloadLink.href = audioUrl;
-          downloadLink.setAttribute("download", "");
-    
-          // Initialize jPlayer
-          const jpPlayer = $("#jp-jplayer");
-          jpPlayer.jPlayer("destroy");
-    
-          jpPlayer.jPlayer({
-            ready: function () {
-              $(this).jPlayer("setMedia", {
-                mp3: audioUrl,
-              });
-            },
-            swfPath: "js",
-            supplied: "mp3",
-            cssSelectorAncestor: ".jp_container",
-            useStateClassSkin: true,
-            autoBlur: false,
-            smoothPlayBar: true,
-            keyEnabled: true,
-          });
+      // Fetch RSS feed and process
+      fetch(corsProxy + encodeURIComponent(rssFeedUrl))
+        .then(response => response.json())
+        .then(data => {
+          const xmlDoc = parseFeedData(data);
+          loadLatestEpisode(xmlDoc);
+          loadAllEpisodes(xmlDoc);
         })
-        .catch((err) => {
+        .catch(err => {
           console.error("Failed to load or parse RSS feed:", err);
-          // Optionally update UI to show error or fallback content
+          // Update UI to show error or fallback content
           document.getElementById("hero-episode-title").textContent = "Failed to load episode";
           document.getElementById("hero-episode-date").textContent = "";
           document.getElementById("track-title").textContent = "";
           document.getElementById("track-author").textContent = "";
-        });
-    });
-    </script>
-    
-    <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const rssFeedUrl = "https://anchor.fm/s/105dc3c90/podcast/rss"; // Replace with your RSS feed URL
-      const corsProxy = "https://api.allorigins.win/get?url="; // CORS proxy
-    
-      const container = document.getElementById("episodes-container");
-    
-      fetch(corsProxy + encodeURIComponent(rssFeedUrl))
-        .then(response => response.json())
-        .then(data => {
-          // Check if content is base64 encoded (data URI)
-          let rssText;
-          if (data.contents.startsWith("data:")) {
-            const base64String = data.contents.split(",")[1];
-            rssText = atob(base64String);
-          } else {
-            rssText = data.contents;
-          }
-    
-          const parser = new DOMParser();
-          const xml = parser.parseFromString(rssText, "text/xml");
-          const items = xml.querySelectorAll("item");
-    
-          if (!items.length) {
-            container.innerHTML = "<p>No episodes found.</p>";
-            return;
-          }
-    
-          container.innerHTML = ""; // Clear placeholder content
-    
-          items.forEach(item => {
-            const shortDesc = descriptionText.length > 100 ? descriptionText.substring(0, 100) + "..." : descriptionText;
-
-            const descriptionText = descriptionRaw.replace(/<\/?[^>]+(>|$)/g, "");
-
-            const descriptionRaw = item.querySelector("description")?.textContent || "";
-
-            const title = item.querySelector("title")?.textContent || "Untitled Episode";
-
-            // Check if title contains "featuring" (case-insensitive)
-            const hasFeaturing = /featuring/i.test(title);
-
-            // Assign category class based on that
-            const categoryClass = hasFeaturing ? "interview" : "non-interview";
-            const pubDateRaw = item.querySelector("pubDate")?.textContent;
-            const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
-            const formattedDate = pubDate.toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "short",
-              day: "numeric"
-            });
-    
-            const enclosure = item.querySelector("enclosure");
-            const audioUrl = enclosure ? enclosure.getAttribute("url") : "#";
-    
-            const imageTag = item.querySelector("itunes\\:image");
-            const imageUrl = imageTag ? imageTag.getAttribute("href") : "img/episodes/default.jpg";
-    
-            const episodeHTML = `
-              <div class="col-lg-4 col-md-6 ${categoryClass}">
-                <div class="episodes__item" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center; min-height: 250px; position: relative; color: white;">
-                  <a href="${audioUrl}" target="_blank" class="play-btn" style="position: absolute; top: 10px; right: 10px; z-index: 10;">
-                    <img src="img/play.png" alt="Play Button" style="width: 40px; height: 40px;" />
-                  </a>
-                  <div style="position: absolute; bottom: 0; background: rgba(0,0,0,0.6); width: 100%; padding: 15px;">
-                    <h4 style="margin: 0;">${title}</h4>
-                    <p style="margin: 5px 0 0;">${formattedDate}</p>
-                    <p style="margin: 5px 0 0;">${shortDesc}</p>
-                  </div>
-                </div>
-              </div>
-            `;
-    
-            container.insertAdjacentHTML("beforeend", episodeHTML);
-          });
-        })
-        .catch(err => {
-          console.error("Failed to load episodes", err);
-          container.innerHTML = "<p>Failed to load episodes.</p>";
+          const container = document.getElementById("episodes-container");
+          if (container) container.innerHTML = "<p>Failed to load episodes.</p>";
         });
     });
     </script>
