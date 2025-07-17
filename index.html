@@ -319,9 +319,11 @@
         const enclosure = item.querySelector("enclosure");
         const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
         const author = xmlDoc.querySelector("itunes\\:author")?.textContent || "Anchor Podcast";
-        const imageTag = item.querySelector("itunes\\:image");
-        const imageUrl = imageTag ? imageTag.getAttribute("href") : "img/hero/hero-track.jpg";
-    
+        let imageUrl = "img/episodes/default.jpg"; // default image
+        const imageTag = item.getElementsByTagName("itunes:image")[0];
+        if (imageTag && imageTag.getAttribute("href")) {
+          imageUrl = imageTag.getAttribute("href");
+        }
         // Update hero section
         document.getElementById("hero-episode-title").textContent = title;
         document.getElementById("hero-episode-date").textContent = formattedDate;
