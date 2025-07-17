@@ -368,15 +368,15 @@
         }
         container.innerHTML = "";
     
-        items.forEach(item => {
+       items.forEach(item => {
           const descriptionRaw = item.querySelector("description")?.textContent || "";
           const descriptionText = descriptionRaw.replace(/<\/?[^>]+(>|$)/g, "");
           const shortDesc = descriptionText.length > 100 ? descriptionText.substring(0, 100) + "..." : descriptionText;
-    
+        
           const title = item.querySelector("title")?.textContent || "Untitled Episode";
           const hasFeaturing = /featuring/i.test(title);
           const categoryClass = hasFeaturing ? "interview" : "non-interview";
-    
+        
           const pubDateRaw = item.querySelector("pubDate")?.textContent;
           const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
           const formattedDate = pubDate.toLocaleDateString(undefined, {
@@ -384,13 +384,16 @@
             month: "short",
             day: "numeric"
           });
-    
+        
           const enclosure = item.querySelector("enclosure");
           const audioUrl = enclosure ? enclosure.getAttribute("url") : "#";
-    
-          const imageTag = item.querySelector("itunes\\:image");
-          const imageUrl = imageTag ? imageTag.getAttribute("href") : "img/episodes/default.jpg";
-    
+        
+          // Enhanced image detection logic
+          let imageUrl = item.querySelector("itunes\\:image")?.getAttribute("href") ||
+                         item.querySelector("media\\:thumbnail")?.getAttribute("url") ||
+                         item.querySelector("media\\:content")?.getAttribute("url") ||
+                         globalImageUrl;
+        
           const episodeHTML = `
             <div class="col-lg-4 col-md-6 ${categoryClass}">
               <div class="episodes__item" style="background-image: url('${imageUrl}'); background-size: cover; background-position: center; min-height: 250px; position: relative; color: white;">
@@ -404,9 +407,10 @@
                 </div>
               </div>
             </div>`;
-    
+        
           container.insertAdjacentHTML("beforeend", episodeHTML);
         });
+
       }
     
       // Fetch RSS feed and process
