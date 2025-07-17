@@ -776,18 +776,25 @@
       fetch(corsProxy + encodeURIComponent(rssFeedUrl))
         .then(response => response.json())
         .then(data => {
+          // Decode base64 from data.contents (which is a data URI)
+          const base64String = data.contents.split(",")[1];
+          const xmlString = atob(base64String);
+    
+          // Parse XML string
           const parser = new DOMParser();
-          const xml = parser.parseFromString(data.contents, "text/xml");
-          const items = xml.querySelectorAll("item");
+          const xml = parser.parseFromString(xmlString, "text/xml");
+    
+          const items = xml.getElementsByTagName("item");
+          console.log("Number of episodes found:", items.length);
     
           if (!items.length) {
             container.innerHTML = "<p>No episodes found.</p>";
             return;
           }
-          console.log(data.contents);
+    
           container.innerHTML = ""; // Clear placeholder
     
-          items.forEach(item => {
+          Array.from(items).forEach(item => {
             const title = item.querySelector("title")?.textContent || "Untitled";
             const pubDateRaw = item.querySelector("pubDate")?.textContent;
             const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
