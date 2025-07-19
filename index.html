@@ -6,7 +6,7 @@
     <meta name="keywords" content="Megapod, unica, creative, html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>25</title>
+    <title>26</title>
 
     <!-- Google Font -->
     <link
@@ -309,9 +309,12 @@
         let rssText;
         if (data.contents.startsWith("data:")) {
           const base64String = data.contents.split(",")[1];
-          rssText = atob(base64String);
+          const decodedString = atob(base64String);
+          // decode properly to UTF-8
+          rssText = decodeURIComponent(escape(decodedString));
         } else {
-          rssText = data.contents;
+          // decode properly to UTF-8
+          rssText = decodeURIComponent(escape(data.contents));
         }
         return new DOMParser().parseFromString(rssText, "text/xml");
       }
