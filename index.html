@@ -6,7 +6,7 @@
     <meta name="keywords" content="Megapod, unica, creative, html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>24</title>
+    <title>25</title>
 
     <!-- Google Font -->
     <link
@@ -227,7 +227,7 @@
             </div>
           </div>
         </div>
-        <div class="row" id="episodes-container">
+        <div class="row podcast-filter" id="episodes-container">
           <!-- Episodes will load here dynamically -->
         </div>
       </div>
@@ -322,34 +322,76 @@
       }
     
       // Create episode HTML block (matching template style)
-      function createEpisodeHTML(item) {
+      function createEpisodeHTML(item, uniqueId) {
+        // Use uniqueId in jPlayer container classes and data-ancestor attributes
+        // Also add date, author, tags helper functions or placeholders
         const title = item.querySelector("title")?.textContent || "Untitled Episode";
         const descriptionRaw = item.querySelector("description")?.textContent || "";
-        const description = cleanDescription(descriptionRaw).substring(0, 150) + (descriptionRaw.length > 150 ? "..." : "");
+        const description = descriptionRaw.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 150) + (descriptionRaw.length > 150 ? "..." : "");
         const enclosure = item.querySelector("enclosure");
         const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
-        
-        // Detect episode image or fallback
+      
+        // Example placeholders for date, author, and tags
+        const pubDate = item.querySelector("pubDate")?.textContent || "Unknown date";
+        const author = item.querySelector("itunes\\:author")?.textContent || "Unknown author";
+        const tags = "Podcast";
+      
+        // Image fallback
         let imageUrl =
           item.querySelector("itunes\\:image")?.getAttribute("href") ||
           item.querySelector("image")?.textContent ||
           "img/episodes/default.jpg";
-    
-        // Categorize interview or not
+      
+        // Determine category class for filtering
         const isInterview = /featuring/i.test(title);
         const categoryClass = isInterview ? "interview" : "non-interview";
-    
+      
         return `
-          <div class="col-lg-4 col-md-6 mix ${categoryClass}">
-            <div class="episodes__item">
-              <img src="${imageUrl}" alt="Episode Image" />
-              <div class="episodes__text">
+          <div class="col-lg-12 mix ${categoryClass}">
+            <div class="podcast__item">
+              <div class="podcast__item__pic">
+                <img src="${imageUrl}" alt="${title}" />
+              </div>
+              <div class="podcast__item__text">
+                <a href="#" class="heart-icon"><i class="fa fa-heart"></i></a>
+                <ul>
+                  <li><span class="icon_calendar"></span> ${pubDate}</li>
+                  <li><span class="icon_profile"></span> by ${author}</li>
+                  <li><span class="icon_tags_alt"></span> ${tags}</li>
+                </ul>
                 <h4>${title}</h4>
                 <p>${description}</p>
-                <audio controls preload="none">
-                  <source src="${audioUrl}" type="audio/mpeg" />
-                  Your browser does not support the audio element.
-                </audio>
+                <div class="track__option">
+                  <div class="jp-jplayer jplayer" data-ancestor=".jp_container-${uniqueId}" data-url="${audioUrl}"></div>
+                  <div class="jp-audio jp_container-${uniqueId}" role="application" aria-label="media player">
+                    <div class="jp-gui jp-interface">
+                      <div class="player_controls_box">
+                        <button class="jp-play player_button" tabindex="0"></button>
+                      </div>
+                      <div class="player_bars">
+                        <div class="jp-progress">
+                          <div class="jp-seek-bar">
+                            <div>
+                              <div class="jp-play-bar">
+                                <div class="jp-current-time" role="timer" aria-label="time">0:00</div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="jp-duration ml-auto" role="timer" aria-label="duration">00:00</div>
+                      </div>
+                      <div class="jp-volume-controls">
+                        <button class="jp-mute" tabindex="0"><span class="icon_volume-high"></span></button>
+                        <div class="jp-volume-bar">
+                          <div class="jp-volume-bar-value" style="width: 0%"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="jp-btns">
+                      <a href="${audioUrl}" download><i class="fa fa-download"></i> Download</a>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
