@@ -6,7 +6,7 @@
     <meta name="keywords" content="Megapod, unica, creative, html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>22</title>
+    <title>23</title>
 
     <!-- Google Font -->
     <link
@@ -357,28 +357,94 @@
     <script src="js/jplayerInit.js"></script>
 
     <script>
-      document.addEventListener("DOMContentLoaded", () => {
-        const rssFeedUrl = "https://anchor.fm/s/105dc3c90/podcast/rss";
-        const corsProxy = "https://api.allorigins.win/get?url=";
-
-        // Helper: parse and decode RSS feed XML from CORS proxy response
-        function parseFeedData(data) {
-          let rssText;
-          if (data.contents.startsWith("data:")) {
-            const base64String = data.contents.split(",")[1];
-            rssText = atob(base64String);
-          } else {
-            rssText = data.contents;
-          }
-          return new DOMParser().parseFromString(rssText, "text/xml");
+    document.addEventListener("DOMContentLoaded", () => {
+      const rssFeedUrl = "https://anchor.fm/s/105dc3c90/podcast/rss";
+      const corsProxy = "https://api.allorigins.win/get?url=";
+  
+      // Helper: parse and decode RSS feed XML from CORS proxy response
+      function parseFeedData(data) {
+        let rssText;
+        if (data.contents.startsWith("data:")) {
+          const base64String = data.contents.split(",")[1];
+          rssText = atob(base64String);
+        } else {
+          rssText = data.contents;
         }
-
-        // Load and show latest episode in hero/player
-        function loadLatestEpisode(xmlDoc) {
-          const item = xmlDoc.querySelector("item");
-          if (!item) throw new Error("No episode found");
-
+        return new DOMParser().parseFromString(rssText, "text/xml");
+      }
+  
+      // Load and show latest episode in hero/player
+      function loadLatestEpisode(xmlDoc) {
+        const item = xmlDoc.querySelector("item");
+        if (!item) throw new Error("No episode found");
+  
+        const title = item.querySelector("title")?.textContent || "Untitled Episode";
+        const pubDateRaw = item.querySelector("pubDate")?.textContent;
+        const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
+        const formattedDate = pubDate.toLocaleDateString(undefined, {
+          year: "numeric",
+          month: "short",
+          day: "numeric",
+        });
+        const enclosure = item.querySelector("enclosure");
+        const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
+        const author = xmlDoc.querySelector("itunes\\:author")?.textContent || "Anchor Podcast";
+  
+        let imageUrl = "img/episodes/default.jpg"; // default
+        const imageTag = item.getElementsByTagName("itunes:image")[0];
+        if (imageTag && imageTag.getAttribute("href")) {
+          imageUrl = imageTag.getAttribute("href");
+        }
+  
+        document.getElementById("hero-episode-title").textContent = title;
+        document.getElementById("hero-episode-date").textContent = formattedDate;
+        document.getElementById("track-title").textContent = title;
+        document.getElementById("track-author").textContent = author;
+        document.getElementById("track-artwork").src = imageUrl;
+  
+        const playBtn = document.getElementById("hero-play-btn");
+        playBtn.href = audioUrl;
+  
+        const downloadLink = document.getElementById("download-link");
+        downloadLink.href = audioUrl;
+        downloadLink.setAttribute("download", "");
+  
+        const jpPlayer = $("#jp-jplayer");
+        jpPlayer.jPlayer("destroy");
+        jpPlayer.jPlayer({
+          ready: function () {
+            $(this).jPlayer("setMedia", { mp3: audioUrl });
+          },
+          swfPath: "js",
+          supplied: "mp3",
+          cssSelectorAncestor: ".jp_container",
+          useStateClassSkin: true,
+          autoBlur: false,
+          smoothPlayBar: true,
+          keyEnabled: true,
+        });
+      }
+  
+      // Load and render all episodes in the container
+      function loadAllEpisodes(xmlDoc) {
+        const container = document.getElementById("episodes-container");
+        const items = xmlDoc.querySelectorAll("item");
+        if (!items.length) {
+          container.innerHTML = "<p>No episodes found.</p>";
+          return;
+        }
+        container.innerHTML = "";
+  
+        items.forEach((item) => {
+          const descriptionRaw = item.querySelector("description")?.textContent || "";
+          const descriptionText = descriptionRaw.replace(/<\/?[^>]+(>|$)/g, "");
+          const shortDesc =
+            descriptionText.length > 100 ? descriptionText.substring(0, 100) + "..." : descriptionText;
+  
           const title = item.querySelector("title")?.textContent || "Untitled Episode";
+          const hasFeaturing = /featuring/i.test(title);
+          const categoryClass = hasFeaturing ? "interview" : "non-interview";
+  
           const pubDateRaw = item.querySelector("pubDate")?.textContent;
           const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
           const formattedDate = pubDate.toLocaleDateString(undefined, {
@@ -386,81 +452,48 @@
             month: "short",
             day: "numeric",
           });
+  
           const enclosure = item.querySelector("enclosure");
-          const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
-          const author = xmlDoc.querySelector("itunes\\:author")?.textContent || "Anchor Podcast";
-
-          let imageUrl = "img/episodes/default.jpg"; // default image
-          const imageTag = item.getElementsByTagName("itunes:image")[0];
-          if (imageTag && imageTag.getAttribute("href")) {
-            imageUrl = imageTag.getAttribute("href");
-          }
-
-          // Update hero section
-          document.getElementById("hero-episode-title").textContent = title;
-          document.getElementById("hero-episode-date").textContent = formattedDate;
-          document.getElementById("track-title").textContent = title;
-          document.getElementById("track-author").textContent = author;
-
-          if (imageUrl) {
-            document.getElementById("track-artwork").src = imageUrl;
-          }
-
-          const playBtn = document.getElementById("hero-play-btn");
-          playBtn.href = audioUrl;
-
-          const downloadLink = document.getElementById("download-link");
-          downloadLink.href = audioUrl;
-          downloadLink.setAttribute("download", "");
-
-          // Initialize jPlayer
-          const jpPlayer = $("#jp-jplayer");
-          jpPlayer.jPlayer("destroy");
-          jpPlayer.jPlayer({
-            ready: function () {
-              $(this).jPlayer("setMedia", { mp3: audioUrl });
-            },
-            swfPath: "js",
-            supplied: "mp3",
-            cssSelectorAncestor: ".jp_container",
-            useStateClassSkin: true,
-            autoBlur: false,
-            smoothPlayBar: true,
-            keyEnabled: true,
+          const audioUrl = enclosure ? enclosure.getAttribute("url") : "#";
+  
+          let imageUrl =
+            item.querySelector("itunes\\:image")?.getAttribute("href") ||
+            xmlDoc.querySelector("itunes\\:image")?.getAttribute("href") ||
+            "img/episodes/default.jpg";
+  
+          const episodeHTML = `
+            <div class="col-lg-4 col-md-6 mix ${categoryClass}">
+              <div class="episodes__item set-bg" style="background-image: url('${imageUrl}')">
+                <div class="episodes__text">
+                  <div class="tags">${categoryClass.replace("-", " ")}</div>
+                  <div class="time">${formattedDate}</div>
+                  <h4>${title}</h4>
+                </div>
+              </div>
+            </div>
+          `;
+          container.insertAdjacentHTML("beforeend", episodeHTML);
+        });
+      }
+  
+      // Fetch and parse RSS with cache busting
+      function fetchAndRenderFeed() {
+        const cacheBustingUrl = `${corsProxy}${encodeURIComponent(rssFeedUrl)}?t=${Date.now()}`;
+        fetch(cacheBustingUrl)
+          .then((res) => res.json())
+          .then((data) => {
+            const xmlDoc = parseFeedData(data);
+            loadLatestEpisode(xmlDoc);
+            loadAllEpisodes(xmlDoc);
+          })
+          .catch((err) => {
+            console.error("Failed to fetch or parse RSS feed:", err);
+            document.getElementById("hero-episode-title").textContent = "Failed to load episode";
           });
-        }
-
-        // Load and render all episodes in the container with filtering classes
-        function loadAllEpisodes(xmlDoc) {
-          const container = document.getElementById("episodes-container");
-          const items = xmlDoc.querySelectorAll("item");
-          if (!items.length) {
-            container.innerHTML = "<p>No episodes found.</p>";
-            return;
-          }
-          container.innerHTML = "";
-
-          items.forEach((item) => {
-            const descriptionRaw = item.querySelector("description")?.textContent || "";
-            const descriptionText = descriptionRaw.replace(/<\/?[^>]+(>|$)/g, "");
-            const shortDesc =
-              descriptionText.length > 100 ? descriptionText.substring(0, 100) + "..." : descriptionText;
-
-            const title = item.querySelector("title")?.textContent || "Untitled Episode";
-            const hasFeaturing = /featuring/i.test(title);
-            const categoryClass = hasFeaturing ? "interview" : "non-interview";
-
-            const pubDateRaw = item.querySelector("pubDate")?.textContent;
-            const pubDate = pubDateRaw ? new Date(pubDateRaw) : new Date();
-            const formattedDate = pubDate.toLocaleDateString(undefined, {
-              year: "numeric",
-              month: "short",
-              day: "numeric",
-            });
-
-            const enclosure = item.querySelector("enclosure");
-            const audioUrl = enclosure ? enclosure.getAttribute("url") : "#";
-
-            // Enhanced image detection logic
-            let imageUrl =
-              item.querySelector("itunes\\:image")?.getAttribute("href") ||
+      }
+  
+      fetchAndRenderFeed();
+    });
+    </script>
+  </body>
+</html>
