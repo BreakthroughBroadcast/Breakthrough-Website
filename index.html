@@ -343,6 +343,8 @@
         let imageUrl =
           item.querySelector("itunes\\:image")?.getAttribute("href") ||
           item.querySelector("image")?.textContent ||
+          item.querySelector("media\\:thumbnail")?.getAttribute("url") ||
+          item.querySelector("media\\:content")?.getAttribute("url") ||
           "img/episodes/Breakthrough-Broadcast.png";
         // Determine category class for filtering
         const isInterview = /featuring/i.test(title);
