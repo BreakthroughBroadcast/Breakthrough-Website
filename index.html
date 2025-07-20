@@ -6,7 +6,7 @@
     <meta name="keywords" content="Megapod, unica, creative, html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>30</title>
+    <title>31</title>
 
     <!-- Google Font -->
     <link
@@ -302,15 +302,20 @@
     <script>
     async function fetchRSS() {
       const proxyUrl = 'https://api.allorigins.win/get?url=';
-      const feedUrl = encodeURIComponent('https://anchor.fm/s/yourshowname/podcast/rss');
+      const feedUrl = encodeURIComponent('https://anchor.fm/s/yourshowname/podcast/rss'); // replace with yours
       const url = `${proxyUrl}${feedUrl}&cache_bust=${Date.now()}`;
     
       try {
         const response = await fetch(url);
         const data = await response.json();
+    
+        if (!data || !data.contents) throw new Error('Empty RSS response');
+    
         const parser = new DOMParser();
         const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
         const items = xmlDoc.querySelectorAll('item');
+    
+        if (!items || items.length === 0) throw new Error('No episodes found in RSS feed');
     
         const episodes = [];
         items.forEach(item => {
@@ -318,7 +323,7 @@
           const description = item.querySelector('description')?.textContent || '';
           const pubDate = item.querySelector('pubDate')?.textContent || '';
           const audioUrl = item.querySelector('enclosure')?.getAttribute('url') || '';
-          const image = item.querySelector('itunes\\:image, image')?.getAttribute('href') || '';
+          const image = item.querySelector('itunes\\:image')?.getAttribute('href') || '';
     
           episodes.push({
             title: decodeHTMLEntities(title),
@@ -329,10 +334,16 @@
           });
         });
     
+        // Safety check again before rendering
+        if (episodes.length === 0) throw new Error('No episodes extracted after parsing');
+    
         populateHeroPlayer(episodes[0]);
         populateEpisodeList(episodes);
+    
       } catch (err) {
         console.error('RSS Fetch Error:', err);
+        document.querySelector('.episode-title').textContent = 'Error loading podcast';
+        document.querySelector('.episode-description').textContent = 'Please check back later.';
       }
     }
     
