@@ -6,7 +6,7 @@
     <meta name="keywords" content="Megapod, unica, creative, html" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>29</title>
+    <title>30</title>
 
     <!-- Google Font -->
     <link
@@ -300,139 +300,85 @@
     <script src="js/jplayerInit.js"></script>
 
     <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const rssFeedUrl = "https://anchor.fm/s/105dc3c90/podcast/rss";
-      const corsProxy = "https://api.allorigins.win/get?url=";
+    async function fetchRSS() {
+      const proxyUrl = 'https://api.allorigins.win/get?url=';
+      const feedUrl = encodeURIComponent('https://anchor.fm/s/yourshowname/podcast/rss');
+      const url = `${proxyUrl}${feedUrl}&cache_bust=${Date.now()}`;
     
-      // Parse XML from CORS proxy response
-      function parseFeedData(data) {
-        let rssText;
-        if (data.contents.startsWith("data:")) {
-          const base64String = data.contents.split(",")[1];
-          const decodedString = atob(base64String);
-          // decode properly to UTF-8
-          rssText = decodeURIComponent(escape(decodedString));
-        } else {
-          // decode properly to UTF-8
-          rssText = decodeURIComponent(escape(data.contents));
-        }
-        return new DOMParser().parseFromString(rssText, "text/xml");
+      try {
+        const response = await fetch(url);
+        const data = await response.json();
+        const parser = new DOMParser();
+        const xmlDoc = parser.parseFromString(data.contents, 'text/xml');
+        const items = xmlDoc.querySelectorAll('item');
+    
+        const episodes = [];
+        items.forEach(item => {
+          const title = item.querySelector('title')?.textContent || '';
+          const description = item.querySelector('description')?.textContent || '';
+          const pubDate = item.querySelector('pubDate')?.textContent || '';
+          const audioUrl = item.querySelector('enclosure')?.getAttribute('url') || '';
+          const image = item.querySelector('itunes\\:image, image')?.getAttribute('href') || '';
+    
+          episodes.push({
+            title: decodeHTMLEntities(title),
+            description: decodeHTMLEntities(description),
+            pubDate,
+            audioUrl,
+            image
+          });
+        });
+    
+        populateHeroPlayer(episodes[0]);
+        populateEpisodeList(episodes);
+      } catch (err) {
+        console.error('RSS Fetch Error:', err);
       }
+    }
     
-      // Helper to clean HTML tags from description
-      function cleanDescription(html) {
-        return html.replace(/<\/?[^>]+(>|$)/g, "").trim();
+    function decodeHTMLEntities(text) {
+      const txt = document.createElement('textarea');
+      txt.innerHTML = text;
+      return txt.value;
+    }
+    
+    function populateHeroPlayer(episode) {
+      const jPlayer = $("#jquery_jplayer_1");
+      jPlayer.jPlayer("setMedia", {
+        mp3: episode.audioUrl
+      });
+    
+      document.querySelector('.episode-title').textContent = episode.title;
+      document.querySelector('.episode-description').innerHTML = episode.description;
+    
+      if (episode.image) {
+        document.querySelector('.episode-image').src = episode.image;
+        document.querySelector('.episode-image').alt = episode.title;
       }
+    }
     
-      // Create episode HTML block (matching template style)
-      function createEpisodeHTML(item, uniqueId) {
-        // Use uniqueId in jPlayer container classes and data-ancestor attributes
-        // Also add date, author, tags helper functions or placeholders
-        const title = item.querySelector("title")?.textContent || "Untitled Episode";
-        const descriptionRaw = item.querySelector("description")?.textContent || "";
-        const description = descriptionRaw.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 150) + (descriptionRaw.length > 150 ? "..." : "");
-        const enclosure = item.querySelector("enclosure");
-        const audioUrl = enclosure ? enclosure.getAttribute("url") : "";
-      
-        // Example placeholders for date, author, and tags
-        const pubDate = item.querySelector("pubDate")?.textContent || "Unknown date";
-        const author = item.querySelector("itunes\\:author")?.textContent || "Unknown author";
-        const tags = "Podcast";
-      
-        // Image fallback
-        let imageUrl =
-          item.querySelector("itunes\\:image")?.getAttribute("href") ||
-          item.querySelector("image")?.textContent ||
-          item.querySelector("media\\:thumbnail")?.getAttribute("url") ||
-          item.querySelector("media\\:content")?.getAttribute("url") ||
-          "img/episodes/Breakthrough-Broadcast.png";
-        // Determine category class for filtering
-        const isInterview = /featuring/i.test(title);
-        const categoryClass = isInterview ? "interview" : "non-interview";
-      
-        return `
-          <div class="col-lg-12 mix ${categoryClass}">
-            <div class="podcast__item">
-              <div class="podcast__item__pic">
-                <img src="${imageUrl}" alt="${title}" />
-              </div>
-              <div class="podcast__item__text">
-                <a href="#" class="heart-icon"><i class="fa fa-heart"></i></a>
-                <ul>
-                  <li><span class="icon_calendar"></span> ${pubDate}</li>
-                  <li><span class="icon_profile"></span> by ${author}</li>
-                  <li><span class="icon_tags_alt"></span> ${tags}</li>
-                </ul>
-                <h4>${title}</h4>
-                <p>${description}</p>
-                <div class="track__option">
-                  <div class="jp-jplayer jplayer" data-ancestor=".jp_container-${uniqueId}" data-url="${audioUrl}"></div>
-                  <div class="jp-audio jp_container-${uniqueId}" role="application" aria-label="media player">
-                    <div class="jp-gui jp-interface">
-                      <div class="player_controls_box">
-                        <button class="jp-play player_button" tabindex="0"></button>
-                      </div>
-                      <div class="player_bars">
-                        <div class="jp-progress">
-                          <div class="jp-seek-bar">
-                            <div>
-                              <div class="jp-play-bar">
-                                <div class="jp-current-time" role="timer" aria-label="time">0:00</div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div class="jp-duration ml-auto" role="timer" aria-label="duration">00:00</div>
-                      </div>
-                      <div class="jp-volume-controls">
-                        <button class="jp-mute" tabindex="0"><span class="icon_volume-high"></span></button>
-                        <div class="jp-volume-bar">
-                          <div class="jp-volume-bar-value" style="width: 0%"></div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="jp-btns">
-                      <a href="${audioUrl}" download><i class="fa fa-download"></i> Download</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    function populateEpisodeList(episodes) {
+      const listContainer = document.getElementById('podcast-list');
+      listContainer.innerHTML = '';
+    
+      episodes.forEach((episode, index) => {
+        const epDiv = document.createElement('div');
+        epDiv.classList.add('podcast-episode');
+    
+        epDiv.innerHTML = `
+          <div class="podcast-episode-inner">
+            <img src="${episode.image || 'img/episodes/default.jpg'}" alt="Episode Art" class="episode-thumb" />
+            <h4 class="episode-title">${episode.title}</h4>
+            <p class="episode-description">${episode.description}</p>
           </div>
         `;
-      }
     
-      // Fetch RSS and render episodes
-      function fetchAndRenderEpisodes() {
-        const url = `${corsProxy}${encodeURIComponent(rssFeedUrl)}?t=${Date.now()}`;
-        fetch(url)
-          .then(res => res.json())
-          .then(data => {
-            const xmlDoc = parseFeedData(data);
-            const items = Array.from(xmlDoc.querySelectorAll("item"));
-            if (items.length === 0) {
-              document.getElementById("episodes-container").innerHTML = "<p>No episodes found.</p>";
-              return;
-            }
-            // Avoid duplicates by episode GUID if available
-            const seenGuids = new Set();
-            let episodesHTML = "";
-            items.forEach((item, index) => {
-              const guid = item.querySelector("guid")?.textContent || item.querySelector("title")?.textContent;
-              if (seenGuids.has(guid)) return;
-              seenGuids.add(guid);
-              episodesHTML += createEpisodeHTML(item, index);
-            });
-            document.getElementById("episodes-container").innerHTML = episodesHTML;
-          })
-          .catch(err => {
-            console.error("Error loading episodes:", err);
-            document.getElementById("episodes-container").innerHTML = "<p>Failed to load episodes.</p>";
-          });
-      }
+        listContainer.appendChild(epDiv);
+      });
+    }
     
-      fetchAndRenderEpisodes();
-    });
+    document.addEventListener('DOMContentLoaded', fetchRSS);
     </script>
+
   </body>
 </html>
